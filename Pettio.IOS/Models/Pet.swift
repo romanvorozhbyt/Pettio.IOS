@@ -2,7 +2,7 @@
 //  Pet.swift
 //  Pettio.IOS
 //
-//  Created by Katerina Kaverina on 06.02.2026.
+//  Created by Roman Vorozhbyt on 06.02.2026.
 //
 
 import Foundation
