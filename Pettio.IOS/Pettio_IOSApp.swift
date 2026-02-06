@@ -12,7 +12,9 @@ import SwiftData
 struct Pettio_IOSApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Pet.self,
+            Match.self,
+            SwipeAction.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

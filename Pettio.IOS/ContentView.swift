@@ -9,53 +9,36 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
+        TabView {
+            FeedView()
+                .tabItem {
+                    Label("Discover", systemImage: "heart.fill")
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+            
+            MatchesView()
+                .tabItem {
+                    Label("Matches", systemImage: "star.fill")
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+            
+            ProfileView()
+                .tabItem {
+                    Label("Profile", systemImage: "pawprint.fill")
                 }
-            }
-        } detail: {
-            Text("Select an item")
+            
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape.fill")
+                }
         }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
+        .accentColor(.pink)
     }
 }
 
 #Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Pet.self, Match.self, SwipeAction.self, configurations: config)
+    
+    return ContentView()
+        .modelContainer(container)
 }
