@@ -52,16 +52,12 @@ struct SwipeCardView: View {
                         }
                     }
                 } else {
-                    // Local image with fallback
-                    if UIImage(named: imagePath) != nil {
-                        Image(imagePath)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .clipped()
-                    } else {
-                        placeholderImage
-                    }
+                    // Local image - Image view will handle missing images gracefully
+                    Image(imagePath)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .clipped()
                 }
             }
             

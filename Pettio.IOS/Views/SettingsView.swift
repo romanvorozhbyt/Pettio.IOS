@@ -95,8 +95,8 @@ struct DiscoveryPreferencesView: View {
                     Text("Min: \(Int(ageRange.lowerBound)) years")
                     Slider(value: .init(get: { Double(ageRange.lowerBound) },
                                        set: { newValue in
-                                           let clampedMin = min(Int(newValue), ageRange.upperBound)
-                                           ageRange = clampedMin...ageRange.upperBound
+                                           let boundedMin = min(Int(newValue), ageRange.upperBound)
+                                           ageRange = boundedMin...ageRange.upperBound
                                        }),
                           in: 0...30, step: 1)
                 }
@@ -105,8 +105,8 @@ struct DiscoveryPreferencesView: View {
                     Text("Max: \(Int(ageRange.upperBound)) years")
                     Slider(value: .init(get: { Double(ageRange.upperBound) },
                                        set: { newValue in
-                                           let clampedMax = max(Int(newValue), ageRange.lowerBound)
-                                           ageRange = ageRange.lowerBound...clampedMax
+                                           let boundedMax = max(Int(newValue), ageRange.lowerBound)
+                                           ageRange = ageRange.lowerBound...boundedMax
                                        }),
                           in: 0...30, step: 1)
                 }
