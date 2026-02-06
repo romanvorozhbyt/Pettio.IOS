@@ -9,11 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ProfileView: View {
-    @State private var viewModel = ProfileViewModel()
-    @Environment(\.modelContext) private var modelContext
     @Query private var pets: [Pet]
     @State private var isEditingProfile = false
-    @State private var selectedPet: Pet?
     
     var myPet: Pet? {
         pets.first // In a real app, this would be the logged-in user's pet
@@ -22,7 +19,7 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                if let pet = myPet ?? selectedPet {
+                if let pet = myPet {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 20) {
                             // Profile header

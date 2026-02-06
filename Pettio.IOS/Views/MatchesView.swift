@@ -11,8 +11,6 @@ import SwiftData
 struct MatchesView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var matches: [Match]
-    @State private var selectedMatch: Match?
-    @State private var myPetId: String = "current-user-pet"
     
     var sortedMatches: [Match] {
         matches.sorted { ($0.lastMessageAt ?? $0.createdAt) > ($1.lastMessageAt ?? $1.createdAt) }

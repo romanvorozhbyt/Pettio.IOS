@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var notificationsEnabled = true
+    @State private var pushNotificationsEnabled = true
+    @State private var matchNotificationsEnabled = true
+    @State private var messageNotificationsEnabled = true
     @State private var privateProfile = false
     @State private var showAbout = false
     
@@ -16,9 +18,9 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 Section("Notifications") {
-                    Toggle("Push Notifications", isOn: $notificationsEnabled)
-                    Toggle("Match Notifications", isOn: $notificationsEnabled)
-                    Toggle("Message Notifications", isOn: $notificationsEnabled)
+                    Toggle("Push Notifications", isOn: $pushNotificationsEnabled)
+                    Toggle("Match Notifications", isOn: $matchNotificationsEnabled)
+                    Toggle("Message Notifications", isOn: $messageNotificationsEnabled)
                 }
                 
                 Section("Privacy") {
@@ -91,15 +93,21 @@ struct DiscoveryPreferencesView: View {
             Section("Age Range") {
                 HStack {
                     Text("Min: \(Int(ageRange.lowerBound)) years")
-                    Slider(value: .init(get: { Double(ageRange.lowerBound) }, 
-                                       set: { ageRange = Int($0)...Int(ageRange.upperBound) }), 
+                    Slider(value: .init(get: { Double(ageRange.lowerBound) },
+                                       set: { newValue in
+                                           let boundedMin = min(Int(newValue), ageRange.upperBound)
+                                           ageRange = boundedMin...ageRange.upperBound
+                                       }),
                           in: 0...30, step: 1)
                 }
                 
                 HStack {
                     Text("Max: \(Int(ageRange.upperBound)) years")
-                    Slider(value: .init(get: { Double(ageRange.upperBound) }, 
-                                       set: { ageRange = Int(ageRange.lowerBound)...Int($0) }), 
+                    Slider(value: .init(get: { Double(ageRange.upperBound) },
+                                       set: { newValue in
+                                           let boundedMax = max(Int(newValue), ageRange.lowerBound)
+                                           ageRange = ageRange.lowerBound...boundedMax
+                                       }),
                           in: 0...30, step: 1)
                 }
             }

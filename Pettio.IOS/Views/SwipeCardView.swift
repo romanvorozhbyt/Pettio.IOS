@@ -18,21 +18,46 @@ struct SwipeCardView: View {
     @State private var currentImageIndex: Int = 0
     @State private var scale: CGFloat = 1.0
     
+    private var placeholderImage: some View {
+        Image(systemName: "photo.fill")
+            .font(.system(size: 60))
+            .foregroundColor(.gray)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.gray.opacity(0.2))
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             // Background image
             if pet.imageURLs.isEmpty {
-                Image(systemName: "photo.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.gray.opacity(0.2))
+                placeholderImage
             } else {
-                ZStack {
-                    Color.gray.opacity(0.2)
-                    Image(systemName: "photo.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(.gray)
+                let imagePath = pet.imageURLs[currentImageIndex]
+                
+                if imagePath.hasPrefix("http://") || imagePath.hasPrefix("https://") {
+                    AsyncImage(url: URL(string: imagePath)) { phase in
+                        switch phase {
+                        case .empty:
+                            placeholderImage
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .clipped()
+                        case .failure:
+                            placeholderImage
+                        @unknown default:
+                            placeholderImage
+                        }
+                    }
+                } else {
+                    // Local image - Image view will handle missing images gracefully
+                    Image(imagePath)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .clipped()
                 }
             }
             
