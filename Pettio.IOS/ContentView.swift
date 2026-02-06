@@ -31,7 +31,7 @@ struct ContentView: View {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
         }
-        .accentColor(.pink)
+        .tint(.pink)
     }
 }
 

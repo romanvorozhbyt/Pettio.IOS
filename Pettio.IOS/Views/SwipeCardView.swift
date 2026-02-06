@@ -28,11 +28,44 @@ struct SwipeCardView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.gray.opacity(0.2))
             } else {
-                ZStack {
-                    Color.gray.opacity(0.2)
-                    Image(systemName: "photo.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(.gray)
+                let imagePath = pet.imageURLs[currentImageIndex]
+                
+                if imagePath.hasPrefix("http://") || imagePath.hasPrefix("https://") {
+                    AsyncImage(url: URL(string: imagePath)) { phase in
+                        switch phase {
+                        case .empty:
+                            Image(systemName: "photo.fill")
+                                .font(.system(size: 60))
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(Color.gray.opacity(0.2))
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .clipped()
+                        case .failure:
+                            Image(systemName: "photo.fill")
+                                .font(.system(size: 60))
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(Color.gray.opacity(0.2))
+                        @unknown default:
+                            Image(systemName: "photo.fill")
+                                .font(.system(size: 60))
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(Color.gray.opacity(0.2))
+                        }
+                    }
+                } else {
+                    Image(imagePath)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.gray.opacity(0.2))
+                        .clipped()
                 }
             }
             

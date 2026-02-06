@@ -63,6 +63,7 @@ struct FeedView: View {
                                     viewModel.superLike(myPetId: myPetId, modelContext: modelContext)
                                 }
                             )
+                            .id(pet.id)
                         }
                     } else {
                         VStack(spacing: 16) {
@@ -104,6 +105,8 @@ struct FeedView: View {
                                 .font(.system(size: 50))
                                 .foregroundColor(.gray)
                         }
+                        .accessibilityLabel("Dislike")
+                        .accessibilityHint("Swipe left to dislike this pet")
                         
                         Spacer()
                         
@@ -115,6 +118,8 @@ struct FeedView: View {
                                 .font(.system(size: 40))
                                 .foregroundColor(.yellow)
                         }
+                        .accessibilityLabel("Super like")
+                        .accessibilityHint("Send a super like to this pet")
                         
                         Spacer()
                         
@@ -126,6 +131,8 @@ struct FeedView: View {
                                 .font(.system(size: 50))
                                 .foregroundColor(.pink)
                         }
+                        .accessibilityLabel("Like")
+                        .accessibilityHint("Swipe right to like this pet")
                     }
                     .padding(.horizontal, 32)
                     .padding(.vertical)
