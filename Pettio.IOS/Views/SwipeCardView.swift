@@ -18,15 +18,19 @@ struct SwipeCardView: View {
     @State private var currentImageIndex: Int = 0
     @State private var scale: CGFloat = 1.0
     
+    private var placeholderImage: some View {
+        Image(systemName: "photo.fill")
+            .font(.system(size: 60))
+            .foregroundColor(.gray)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.gray.opacity(0.2))
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             // Background image
             if pet.imageURLs.isEmpty {
-                Image(systemName: "photo.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.gray.opacity(0.2))
+                placeholderImage
             } else {
                 let imagePath = pet.imageURLs[currentImageIndex]
                 
@@ -34,11 +38,7 @@ struct SwipeCardView: View {
                     AsyncImage(url: URL(string: imagePath)) { phase in
                         switch phase {
                         case .empty:
-                            Image(systemName: "photo.fill")
-                                .font(.system(size: 60))
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.gray.opacity(0.2))
+                            placeholderImage
                         case .success(let image):
                             image
                                 .resizable()
@@ -46,26 +46,22 @@ struct SwipeCardView: View {
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .clipped()
                         case .failure:
-                            Image(systemName: "photo.fill")
-                                .font(.system(size: 60))
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.gray.opacity(0.2))
+                            placeholderImage
                         @unknown default:
-                            Image(systemName: "photo.fill")
-                                .font(.system(size: 60))
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.gray.opacity(0.2))
+                            placeholderImage
                         }
                     }
                 } else {
-                    Image(imagePath)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.gray.opacity(0.2))
-                        .clipped()
+                    // Local image with fallback
+                    if UIImage(named: imagePath) != nil {
+                        Image(imagePath)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .clipped()
+                    } else {
+                        placeholderImage
+                    }
                 }
             }
             
