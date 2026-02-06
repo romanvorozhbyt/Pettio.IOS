@@ -33,10 +33,10 @@ jobs:
           echo "================================"
           
           # Check that all models have @Model decorator
-          MODELS=$(find Pettio.IOS/Pettio.IOS/Models -name "*.swift" -type f 2>/dev/null)
+          MODELS=$(find Pettio.IOS/Models -name "*.swift" -type f 2>/dev/null)
           
           if [ -z "$MODELS" ]; then
-            echo "⚠️  No models found in Pettio.IOS/Pettio.IOS/Models"
+            echo "⚠️  No models found in Pettio.IOS/Models"
             exit 0
           fi
           
@@ -55,10 +55,10 @@ jobs:
           echo "=========================="
           
           # Check that all view models have @Observable decorator
-          VIEWMODELS=$(find Pettio.IOS/Pettio.IOS/ViewModels -name "*.swift" -type f 2>/dev/null)
+          VIEWMODELS=$(find Pettio.IOS/ViewModels -name "*.swift" -type f 2>/dev/null)
           
           if [ -z "$VIEWMODELS" ]; then
-            echo "⚠️  No ViewModels found in Pettio.IOS/Pettio.IOS/ViewModels"
+            echo "⚠️  No ViewModels found in Pettio.IOS/ViewModels"
             exit 0
           fi
           

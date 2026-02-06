@@ -29,7 +29,7 @@ Please treat all contributors with respect and courtesy. We follow the [Contribu
 ```bash
 # Clone the repository
 git clone https://github.com/romanvorozhbyt/Pettio.IOS.git
-cd Pettio.IOS/Pettio.IOS
+cd Pettio.IOS
 
 # Install git hooks for pre-commit checks
 bash .githooks/install-hooks.sh
@@ -72,11 +72,10 @@ Before committing:
 
 ```bash
 # Build the project
-cd Pettio.IOS
-xcodebuild -scheme Pettio.IOS clean build
+xcodebuild -project Pettio.IOS.xcodeproj -scheme Pettio.IOS clean build
 
 # Run tests
-xcodebuild -scheme Pettio.IOS test
+xcodebuild -project Pettio.IOS.xcodeproj -scheme Pettio.IOS test
 
 # Format code (if using SwiftLint)
 swiftlint --fix
@@ -385,34 +384,35 @@ If your change affects:
 
 ```bash
 # All tests
-xcodebuild test
+xcodebuild -project Pettio.IOS.xcodeproj -scheme Pettio.IOS test
 
 # Specific test class
-xcodebuild test -only-testing Pettio_IOSTests/PetViewModelTests
+xcodebuild -project Pettio.IOS.xcodeproj -scheme Pettio.IOS test -only-testing Pettio_IOSTests/PetViewModelTests
 
 # With coverage
-xcodebuild test -enableCodeCoverage YES
+xcodebuild -project Pettio.IOS.xcodeproj -scheme Pettio.IOS test -enableCodeCoverage YES
 ```
 
 ### Building for Simulator
 
 ```bash
 xcodebuild build \
+  -project Pettio.IOS.xcodeproj \
   -scheme Pettio.IOS \
-  -destination 'generic/platform=iOS Simulator,name=iPhone 16'
+  -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
 ### Debugging Build Failures
 
 ```bash
 # Clean build
-xcodebuild clean
+xcodebuild -project Pettio.IOS.xcodeproj -scheme Pettio.IOS clean
 
 # Remove cache
 rm -rf ~/Library/Developer/Xcode/DerivedData/Pettio*
 
 # Rebuild
-xcodebuild build
+xcodebuild -project Pettio.IOS.xcodeproj -scheme Pettio.IOS build
 ```
 
 ## Getting Help

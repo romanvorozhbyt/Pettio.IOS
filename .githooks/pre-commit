@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Pre-commit hook to ensure code quality
-# Install: cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# Install: run ./install-hooks.sh to configure Git to use .githooks as hooksPath
 
 set -e
 
