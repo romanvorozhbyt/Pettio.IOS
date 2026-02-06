@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         xcode-version: ['16.2']
-        destination: 'generic/platform=iOS Simulator,name=iPhone 16'
+        destination: ['platform=iOS Simulator,name=iPhone 16']
     
     steps:
       - name: Checkout code
@@ -29,7 +29,7 @@ jobs:
           xcodebuild -version
       
       - name: Cache CocoaPods
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-pods-
       
       - name: Cache Derived Data
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/Library/Developer/Xcode/DerivedData
@@ -48,8 +48,8 @@ jobs:
       
       - name: Build for testing
         run: |
-          cd Pettio.IOS
           xcodebuild \
+            -project Pettio.IOS.xcodeproj \
             -scheme Pettio.IOS \
             -destination '${{ matrix.destination }}' \
             -configuration Debug \
@@ -58,8 +58,8 @@ jobs:
       
       - name: Run unit tests
         run: |
-          cd Pettio.IOS
           xcodebuild \
+            -project Pettio.IOS.xcodeproj \
             -scheme Pettio.IOS \
             -destination '${{ matrix.destination }}' \
             -configuration Debug \
@@ -68,7 +68,7 @@ jobs:
       
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-logs
           path: |
@@ -77,8 +77,8 @@ jobs:
       
       - name: Build for simulator
         run: |
-          cd Pettio.IOS
           xcodebuild \
+            -project Pettio.IOS.xcodeproj \
             -scheme Pettio.IOS \
             -destination '${{ matrix.destination }}' \
             -configuration Debug \
@@ -98,23 +98,23 @@ jobs:
           echo "=================="
           
           # Swift files count
-          SWIFT_FILES=$(find Pettio.IOS/Pettio.IOS -name "*.swift" | wc -l)
+          SWIFT_FILES=$(find Pettio.IOS -name "*.swift" | wc -l)
           echo "Swift Files: $SWIFT_FILES"
           
           # Lines of code
-          LINES_OF_CODE=$(find Pettio.IOS/Pettio.IOS -name "*.swift" -type f -exec wc -l {} + | tail -1 | awk '{print $1}')
+          LINES_OF_CODE=$(find Pettio.IOS -name "*.swift" -type f -exec wc -l {} + | tail -1 | awk '{print $1}')
           echo "Lines of Code: $LINES_OF_CODE"
           
           # Model files
-          MODEL_FILES=$(find Pettio.IOS/Pettio.IOS/Models -name "*.swift" 2>/dev/null | wc -l)
+          MODEL_FILES=$(find Pettio.IOS/Models -name "*.swift" 2>/dev/null | wc -l)
           echo "Model Files: $MODEL_FILES"
           
           # ViewModel files
-          VIEWMODEL_FILES=$(find Pettio.IOS/Pettio.IOS/ViewModels -name "*.swift" 2>/dev/null | wc -l)
+          VIEWMODEL_FILES=$(find Pettio.IOS/ViewModels -name "*.swift" 2>/dev/null | wc -l)
           echo "ViewModel Files: $VIEWMODEL_FILES"
           
           # View files
-          VIEW_FILES=$(find Pettio.IOS/Pettio.IOS/Views -name "*.swift" 2>/dev/null | wc -l)
+          VIEW_FILES=$(find Pettio.IOS/Views -name "*.swift" 2>/dev/null | wc -l)
           echo "View Files: $VIEW_FILES"
       
       - name: Check Swift syntax
@@ -124,7 +124,7 @@ jobs:
           
           # Find all Swift files and check syntax
           SYNTAX_ERRORS=0
-          for file in $(find Pettio.IOS/Pettio.IOS -name "*.swift" -type f); do
+          for file in $(find Pettio.IOS -name "*.swift" -type f); do
             if ! swiftc -parse "$file" 2>/dev/null; then
               echo "❌ Syntax error in: $file"
               ((SYNTAX_ERRORS++))
@@ -144,7 +144,7 @@ jobs:
           echo "=================================="
           
           # Check if required directories exist
-          REQUIRED_DIRS=("Pettio.IOS/Pettio.IOS/Models" "Pettio.IOS/Pettio.IOS/ViewModels" "Pettio.IOS/Pettio.IOS/Views")
+          REQUIRED_DIRS=("Pettio.IOS/Models" "Pettio.IOS/ViewModels" "Pettio.IOS/Views")
           
           for dir in "${REQUIRED_DIRS[@]}"; do
             if [ -d "$dir" ]; then
@@ -156,7 +156,7 @@ jobs:
           done
           
           # Check for orphaned Swift files in root
-          ORPHANED=$(find Pettio.IOS/Pettio.IOS -maxdepth 1 -name "*.swift" -type f | grep -v "Pettio_IOSApp\|ContentView\|Item" | wc -l)
+          ORPHANED=$(find Pettio.IOS -maxdepth 1 -name "*.swift" -type f | grep -v "Pettio_IOSApp\|ContentView\|Item" | wc -l)
           if [ $ORPHANED -eq 0 ]; then
             echo "✅ No orphaned Swift files found"
           else
@@ -192,19 +192,19 @@ jobs:
           ISSUES=0
           
           # Check for trailing whitespace
-          if grep -r '[[:space:]]$' Pettio.IOS/Pettio.IOS --include="*.swift" --include="*.md"; then
+          if grep -r '[[:space:]]$' Pettio.IOS --include="*.swift" --include="*.md"; then
             echo "⚠️  Found trailing whitespace"
             ((ISSUES++))
           fi
           
           # Check for TODO comments (informational)
-          TODO_COUNT=$(grep -r "TODO" Pettio.IOS/Pettio.IOS --include="*.swift" | wc -l)
+          TODO_COUNT=$(grep -r "TODO" Pettio.IOS --include="*.swift" | wc -l)
           if [ $TODO_COUNT -gt 0 ]; then
             echo "ℹ️  Found $TODO_COUNT TODO comments"
           fi
           
           # Check for FIXME comments (should be addressed)
-          FIXME_COUNT=$(grep -r "FIXME" Pettio.IOS/Pettio.IOS --include="*.swift" | wc -l)
+          FIXME_COUNT=$(grep -r "FIXME" Pettio.IOS --include="*.swift" | wc -l)
           if [ $FIXME_COUNT -gt 0 ]; then
             echo "⚠️  Found $FIXME_COUNT FIXME comments"
             ((ISSUES++))
@@ -222,7 +222,7 @@ jobs:
           echo "======================="
           
           # Check for force unwraps (!)
-          FORCE_UNWRAPS=$(grep -r "!$" Pettio.IOS/Pettio.IOS/Views --include="*.swift" | grep -v "// " | wc -l)
+          FORCE_UNWRAPS=$(grep -r "!$" Pettio.IOS/Views --include="*.swift" | grep -v "// " | wc -l)
           if [ $FORCE_UNWRAPS -gt 0 ]; then
             echo "⚠️  Found $FORCE_UNWRAPS potential force unwraps (check carefully)"
           else
@@ -230,13 +230,13 @@ jobs:
           fi
           
           # Check for print statements (should use logging)
-          PRINT_STMTS=$(grep -r "print(" Pettio.IOS/Pettio.IOS --include="*.swift" | grep -v "// " | wc -l)
+          PRINT_STMTS=$(grep -r "print(" Pettio.IOS --include="*.swift" | grep -v "// " | wc -l)
           if [ $PRINT_STMTS -gt 0 ]; then
             echo "ℹ️  Found $PRINT_STMTS print statements (consider using proper logging)"
           fi
           
           # Check for commented code
-          COMMENTED_CODE=$(grep -r "^[[:space:]]*//.*=" Pettio.IOS/Pettio.IOS --include="*.swift" | wc -l)
+          COMMENTED_CODE=$(grep -r "^[[:space:]]*//.*=" Pettio.IOS --include="*.swift" | wc -l)
           if [ $COMMENTED_CODE -gt 0 ]; then
             echo "⚠️  Found $COMMENTED_CODE commented code blocks"
           fi
@@ -247,7 +247,7 @@ jobs:
           echo "======================"
           
           # Check for file headers
-          MISSING_HEADERS=$(find Pettio.IOS/Pettio.IOS -name "*.swift" -type f ! -exec grep -q "Created by" {} \; -print | wc -l)
+          MISSING_HEADERS=$(find Pettio.IOS -name "*.swift" -type f ! -exec grep -q "Created by" {} \; -print | wc -l)
           if [ $MISSING_HEADERS -eq 0 ]; then
             echo "✅ All Swift files have headers"
           else

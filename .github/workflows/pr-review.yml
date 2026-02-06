@@ -47,7 +47,7 @@ jobs:
       
       - name: Check for required labels
         run: |
-          LABELS="${{ join(github.event.pull_request.labels.*.name) }}"
+          LABELS="${{ join(github.event.pull_request.labels.*.name, ', ') }}"
           
           if [ -z "$LABELS" ]; then
             echo "ℹ️  No labels assigned to PR (optional)"
@@ -60,8 +60,8 @@ jobs:
           echo "📝 Git History Check:"
           echo "===================="
           
-          # Count commits in PR
-          COMMIT_COUNT=$(git rev-list --count main..${{ github.head_ref }})
+          # Count commits in PR (between base and head SHAs)
+          COMMIT_COUNT=$(git rev-list --count ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
           echo "Commits in this PR: $COMMIT_COUNT"
           
           if [ $COMMIT_COUNT -gt 10 ]; then

@@ -22,8 +22,8 @@ jobs:
       
       - name: Build for release
         run: |
-          cd Pettio.IOS
           xcodebuild \
+            -project Pettio.IOS.xcodeproj \
             -scheme Pettio.IOS \
             -configuration Release \
             -destination 'generic/platform=iOS' \
@@ -33,7 +33,7 @@ jobs:
       - name: Extract version
         id: version
         run: |
-          VERSION=$(grep -r "MARKETING_VERSION" Pettio.IOS/Pettio.IOS.xcodeproj/project.pbxproj | head -1 | sed 's/.*= //;s/;//')
+          VERSION=$(grep -r "MARKETING_VERSION" Pettio.IOS.xcodeproj/project.pbxproj | head -1 | sed 's/.*= //;s/;//')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Release Version: $VERSION"
       
@@ -47,20 +47,16 @@ jobs:
           git log --oneline -10 >> release-notes.md
       
       - name: Upload archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Pettio-Release
           path: Pettio.xcarchive
           retention-days: 30
       
       - name: Create GitHub Release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Pettio ${{ steps.version.outputs.version }}
           body_path: release-notes.md
           draft: false
           prerelease: false
