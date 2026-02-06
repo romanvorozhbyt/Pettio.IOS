@@ -1,0 +1,559 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		18B7733B2F36764C00D4CEC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B773202F36764A00D4CEC6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18B773272F36764A00D4CEC6;
+			remoteInfo = Pettio.IOS;
+		};
+		18B773452F36764C00D4CEC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B773202F36764A00D4CEC6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18B773272F36764A00D4CEC6;
+			remoteInfo = Pettio.IOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		18B773282F36764A00D4CEC6 /* Pettio.IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pettio.IOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18B7733A2F36764C00D4CEC6 /* Pettio.IOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Pettio.IOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18B773442F36764C00D4CEC6 /* Pettio.IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Pettio.IOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		18B7732A2F36764A00D4CEC6 /* Pettio.IOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Pettio.IOS;
+			sourceTree = "<group>";
+		};
+		18B7733D2F36764C00D4CEC6 /* Pettio.IOSTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Pettio.IOSTests;
+			sourceTree = "<group>";
+		};
+		18B773472F36764C00D4CEC6 /* Pettio.IOSUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Pettio.IOSUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18B773252F36764A00D4CEC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B773372F36764C00D4CEC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B773412F36764C00D4CEC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		18B7731F2F36764A00D4CEC6 = {
+			isa = PBXGroup;
+			children = (
+				18B7732A2F36764A00D4CEC6 /* Pettio.IOS */,
+				18B7733D2F36764C00D4CEC6 /* Pettio.IOSTests */,
+				18B773472F36764C00D4CEC6 /* Pettio.IOSUITests */,
+				18B773292F36764A00D4CEC6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		18B773292F36764A00D4CEC6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B773282F36764A00D4CEC6 /* Pettio.IOS.app */,
+				18B7733A2F36764C00D4CEC6 /* Pettio.IOSTests.xctest */,
+				18B773442F36764C00D4CEC6 /* Pettio.IOSUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		18B773272F36764A00D4CEC6 /* Pettio.IOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18B7734E2F36764C00D4CEC6 /* Build configuration list for PBXNativeTarget "Pettio.IOS" */;
+			buildPhases = (
+				18B773242F36764A00D4CEC6 /* Sources */,
+				18B773252F36764A00D4CEC6 /* Frameworks */,
+				18B773262F36764A00D4CEC6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				18B7732A2F36764A00D4CEC6 /* Pettio.IOS */,
+			);
+			name = Pettio.IOS;
+			packageProductDependencies = (
+			);
+			productName = Pettio.IOS;
+			productReference = 18B773282F36764A00D4CEC6 /* Pettio.IOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		18B773392F36764C00D4CEC6 /* Pettio.IOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18B773512F36764C00D4CEC6 /* Build configuration list for PBXNativeTarget "Pettio.IOSTests" */;
+			buildPhases = (
+				18B773362F36764C00D4CEC6 /* Sources */,
+				18B773372F36764C00D4CEC6 /* Frameworks */,
+				18B773382F36764C00D4CEC6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18B7733C2F36764C00D4CEC6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				18B7733D2F36764C00D4CEC6 /* Pettio.IOSTests */,
+			);
+			name = Pettio.IOSTests;
+			packageProductDependencies = (
+			);
+			productName = Pettio.IOSTests;
+			productReference = 18B7733A2F36764C00D4CEC6 /* Pettio.IOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		18B773432F36764C00D4CEC6 /* Pettio.IOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18B773542F36764C00D4CEC6 /* Build configuration list for PBXNativeTarget "Pettio.IOSUITests" */;
+			buildPhases = (
+				18B773402F36764C00D4CEC6 /* Sources */,
+				18B773412F36764C00D4CEC6 /* Frameworks */,
+				18B773422F36764C00D4CEC6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18B773462F36764C00D4CEC6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				18B773472F36764C00D4CEC6 /* Pettio.IOSUITests */,
+			);
+			name = Pettio.IOSUITests;
+			packageProductDependencies = (
+			);
+			productName = Pettio.IOSUITests;
+			productReference = 18B773442F36764C00D4CEC6 /* Pettio.IOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		18B773202F36764A00D4CEC6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					18B773272F36764A00D4CEC6 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					18B773392F36764C00D4CEC6 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 18B773272F36764A00D4CEC6;
+					};
+					18B773432F36764C00D4CEC6 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 18B773272F36764A00D4CEC6;
+					};
+				};
+			};
+			buildConfigurationList = 18B773232F36764A00D4CEC6 /* Build configuration list for PBXProject "Pettio.IOS" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 18B7731F2F36764A00D4CEC6;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 18B773292F36764A00D4CEC6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				18B773272F36764A00D4CEC6 /* Pettio.IOS */,
+				18B773392F36764C00D4CEC6 /* Pettio.IOSTests */,
+				18B773432F36764C00D4CEC6 /* Pettio.IOSUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18B773262F36764A00D4CEC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B773382F36764C00D4CEC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B773422F36764C00D4CEC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18B773242F36764A00D4CEC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B773362F36764C00D4CEC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B773402F36764C00D4CEC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18B7733C2F36764C00D4CEC6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18B773272F36764A00D4CEC6 /* Pettio.IOS */;
+			targetProxy = 18B7733B2F36764C00D4CEC6 /* PBXContainerItemProxy */;
+		};
+		18B773462F36764C00D4CEC6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18B773272F36764A00D4CEC6 /* Pettio.IOS */;
+			targetProxy = 18B773452F36764C00D4CEC6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		18B7734C2F36764C00D4CEC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		18B7734D2F36764C00D4CEC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		18B7734F2F36764C00D4CEC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Pettio.IOS/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ionsoft.Pettio-IOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		18B773502F36764C00D4CEC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Pettio.IOS/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ionsoft.Pettio-IOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		18B773522F36764C00D4CEC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ionsoft.Pettio-IOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pettio.IOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pettio.IOS";
+			};
+			name = Debug;
+		};
+		18B773532F36764C00D4CEC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ionsoft.Pettio-IOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pettio.IOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pettio.IOS";
+			};
+			name = Release;
+		};
+		18B773552F36764C00D4CEC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ionsoft.Pettio-IOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Pettio.IOS;
+			};
+			name = Debug;
+		};
+		18B773562F36764C00D4CEC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ionsoft.Pettio-IOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Pettio.IOS;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18B773232F36764A00D4CEC6 /* Build configuration list for PBXProject "Pettio.IOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18B7734C2F36764C00D4CEC6 /* Debug */,
+				18B7734D2F36764C00D4CEC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18B7734E2F36764C00D4CEC6 /* Build configuration list for PBXNativeTarget "Pettio.IOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18B7734F2F36764C00D4CEC6 /* Debug */,
+				18B773502F36764C00D4CEC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18B773512F36764C00D4CEC6 /* Build configuration list for PBXNativeTarget "Pettio.IOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18B773522F36764C00D4CEC6 /* Debug */,
+				18B773532F36764C00D4CEC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18B773542F36764C00D4CEC6 /* Build configuration list for PBXNativeTarget "Pettio.IOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18B773552F36764C00D4CEC6 /* Debug */,
+				18B773562F36764C00D4CEC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 18B773202F36764A00D4CEC6 /* Project object */;
+}
