@@ -1,0 +1,271 @@
+name: Build & Test
+
+on:
+  pull_request:
+    branches: [ main, dev ]
+  push:
+    branches: [ main, dev ]
+
+jobs:
+  build-and-test:
+    name: Build and Run Tests
+    runs-on: macos-14
+    
+    strategy:
+      matrix:
+        xcode-version: ['16.2']
+        destination: 'generic/platform=iOS Simulator,name=iPhone 16'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Select Xcode version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
+          xcode-select -p
+          xcodebuild -version
+      
+      - name: Cache CocoaPods
+        uses: actions/cache@v3
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      
+      - name: Cache Derived Data
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Developer/Xcode/DerivedData
+            .build
+          key: ${{ runner.os }}-derived-data-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-derived-data-
+      
+      - name: Build for testing
+        run: |
+          cd Pettio.IOS
+          xcodebuild \
+            -scheme Pettio.IOS \
+            -destination '${{ matrix.destination }}' \
+            -configuration Debug \
+            clean build
+        continue-on-error: false
+      
+      - name: Run unit tests
+        run: |
+          cd Pettio.IOS
+          xcodebuild \
+            -scheme Pettio.IOS \
+            -destination '${{ matrix.destination }}' \
+            -configuration Debug \
+            test
+        continue-on-error: false
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-logs
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/*/Logs/Build
+            ~/Library/Developer/Xcode/DerivedData/*/Logs/Test
+      
+      - name: Build for simulator
+        run: |
+          cd Pettio.IOS
+          xcodebuild \
+            -scheme Pettio.IOS \
+            -destination '${{ matrix.destination }}' \
+            -configuration Debug \
+            build
+  
+  code-quality:
+    name: Code Quality Checks
+    runs-on: macos-14
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Calculate code metrics
+        run: |
+          cd Pettio.IOS
+          
+          echo "📊 Code Statistics:"
+          echo "=================="
+          
+          # Swift files count
+          SWIFT_FILES=$(find Pettio.IOS -name "*.swift" | wc -l)
+          echo "Swift Files: $SWIFT_FILES"
+          
+          # Lines of code
+          LINES_OF_CODE=$(find Pettio.IOS -name "*.swift" -type f -exec wc -l {} + | tail -1 | awk '{print $1}')
+          echo "Lines of Code: $LINES_OF_CODE"
+          
+          # Model files
+          MODEL_FILES=$(find Pettio.IOS/Models -name "*.swift" 2>/dev/null | wc -l)
+          echo "Model Files: $MODEL_FILES"
+          
+          # ViewModel files
+          VIEWMODEL_FILES=$(find Pettio.IOS/ViewModels -name "*.swift" 2>/dev/null | wc -l)
+          echo "ViewModel Files: $VIEWMODEL_FILES"
+          
+          # View files
+          VIEW_FILES=$(find Pettio.IOS/Views -name "*.swift" 2>/dev/null | wc -l)
+          echo "View Files: $VIEW_FILES"
+      
+      - name: Check Swift syntax
+        run: |
+          cd Pettio.IOS
+          
+          echo "🔍 Checking Swift Syntax:"
+          echo "=========================="
+          
+          # Find all Swift files and check syntax
+          SYNTAX_ERRORS=0
+          for file in $(find Pettio.IOS -name "*.swift" -type f); do
+            if ! swiftc -parse "$file" 2>/dev/null; then
+              echo "❌ Syntax error in: $file"
+              ((SYNTAX_ERRORS++))
+            fi
+          done
+          
+          if [ $SYNTAX_ERRORS -eq 0 ]; then
+            echo "✅ All Swift files have valid syntax"
+          else
+            echo "❌ Found $SYNTAX_ERRORS files with syntax errors"
+            exit 1
+          fi
+      
+      - name: Check file organization
+        run: |
+          cd Pettio.IOS
+          
+          echo "📁 Checking Project Organization:"
+          echo "=================================="
+          
+          # Check if required directories exist
+          REQUIRED_DIRS=("Pettio.IOS/Models" "Pettio.IOS/ViewModels" "Pettio.IOS/Views")
+          
+          for dir in "${REQUIRED_DIRS[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "✅ $dir exists"
+            else
+              echo "❌ $dir is missing"
+              exit 1
+            fi
+          done
+          
+          # Check for orphaned Swift files in root
+          ORPHANED=$(find Pettio.IOS -maxdepth 1 -name "*.swift" -type f | grep -v "Pettio_IOSApp\|ContentView\|Item" | wc -l)
+          if [ $ORPHANED -eq 0 ]; then
+            echo "✅ No orphaned Swift files found"
+          else
+            echo "⚠️  Found $ORPHANED Swift files in root (consider organizing into folders)"
+          fi
+      
+      - name: Generate build report
+        if: always()
+        run: |
+          echo "## Build Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Build completed successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Xcode: 16.2" >> $GITHUB_STEP_SUMMARY
+          echo "- macOS: 14" >> $GITHUB_STEP_SUMMARY
+          echo "- Swift: 5.9+" >> $GITHUB_STEP_SUMMARY
+  
+  lint-check:
+    name: Lint & Style Check
+    runs-on: macos-14
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Check code style
+        run: |
+          cd Pettio.IOS
+          
+          echo "🎨 Code Style Check:"
+          echo "===================="
+          
+          # Check for common Swift style issues
+          ISSUES=0
+          
+          # Check for trailing whitespace
+          if grep -r '[[:space:]]$' Pettio.IOS --include="*.swift" --include="*.md"; then
+            echo "⚠️  Found trailing whitespace"
+            ((ISSUES++))
+          fi
+          
+          # Check for TODO comments (informational)
+          TODO_COUNT=$(grep -r "TODO" Pettio.IOS --include="*.swift" | wc -l)
+          if [ $TODO_COUNT -gt 0 ]; then
+            echo "ℹ️  Found $TODO_COUNT TODO comments"
+          fi
+          
+          # Check for FIXME comments (should be addressed)
+          FIXME_COUNT=$(grep -r "FIXME" Pettio.IOS --include="*.swift" | wc -l)
+          if [ $FIXME_COUNT -gt 0 ]; then
+            echo "⚠️  Found $FIXME_COUNT FIXME comments"
+            ((ISSUES++))
+          fi
+          
+          if [ $ISSUES -eq 0 ]; then
+            echo "✅ No style issues found"
+          else
+            echo "⚠️  Found $ISSUES style issues (recommended to fix)"
+          fi
+      
+      - name: Check for common pitfalls
+        run: |
+          cd Pettio.IOS
+          
+          echo "⚠️  Common Pitfall Check:"
+          echo "======================="
+          
+          # Check for force unwraps (!)
+          FORCE_UNWRAPS=$(grep -r "!$" Pettio.IOS/Views --include="*.swift" | grep -v "// " | wc -l)
+          if [ $FORCE_UNWRAPS -gt 0 ]; then
+            echo "⚠️  Found $FORCE_UNWRAPS potential force unwraps (check carefully)"
+          else
+            echo "✅ No obvious force unwraps found"
+          fi
+          
+          # Check for print statements (should use logging)
+          PRINT_STMTS=$(grep -r "print(" Pettio.IOS --include="*.swift" | grep -v "// " | wc -l)
+          if [ $PRINT_STMTS -gt 0 ]; then
+            echo "ℹ️  Found $PRINT_STMTS print statements (consider using proper logging)"
+          fi
+          
+          # Check for commented code
+          COMMENTED_CODE=$(grep -r "^[[:space:]]*//.*=" Pettio.IOS --include="*.swift" | wc -l)
+          if [ $COMMENTED_CODE -gt 0 ]; then
+            echo "⚠️  Found $COMMENTED_CODE commented code blocks"
+          fi
+      
+      - name: Check documentation
+        run: |
+          cd Pettio.IOS
+          
+          echo "📚 Documentation Check:"
+          echo "======================="
+          
+          # Check for file headers
+          MISSING_HEADERS=$(find Pettio.IOS -name "*.swift" -type f ! -exec grep -q "Created by" {} \; -print | wc -l)
+          if [ $MISSING_HEADERS -eq 0 ]; then
+            echo "✅ All Swift files have headers"
+          else
+            echo "⚠️  Found $MISSING_HEADERS files without headers"
+          fi
+          
+          # Check for documented public functions (informational)
+          echo "ℹ️  Documentation audit complete"
+

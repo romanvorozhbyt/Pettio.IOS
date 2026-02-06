@@ -1,0 +1,66 @@
+name: Pre-Commit Checks
+
+on:
+  pull_request:
+    branches: [ main, dev ]
+    paths:
+      - 'Pettio.IOS/**/*.swift'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  swift-format-check:
+    name: Swift Format Check
+    runs-on: macos-14
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check minimum line coverage
+        run: |
+          echo "📊 Checking Test Report..."
+          
+          # This is a placeholder for actual coverage reports
+          # In future, integrate with coverage tools like Codecov
+          echo "ℹ️  Test coverage tracking ready for integration"
+      
+      - name: Validate models
+        run: |
+          cd Pettio.IOS
+          
+          echo "🔍 Validating SwiftData Models:"
+          echo "================================"
+          
+          # Check that all models have @Model decorator
+          MODELS=$(find Pettio.IOS/Models -name "*.swift" -type f)
+          
+          for model in $MODELS; do
+            if grep -q "@Model" "$model"; then
+              echo "✅ $(basename $model): Has @Model decorator"
+            else
+              echo "❌ $(basename $model): Missing @Model decorator"
+              exit 1
+            fi
+          done
+      
+      - name: Validate view models
+        run: |
+          cd Pettio.IOS
+          
+          echo "🔍 Validating ViewModels:"
+          echo "=========================="
+          
+          # Check that all view models have @Observable decorator
+          VIEWMODELS=$(find Pettio.IOS/ViewModels -name "*.swift" -type f)
+          
+          for viewmodel in $VIEWMODELS; do
+            if grep -q "@Observable\|@StateObject\|@EnvironmentObject" "$viewmodel"; then
+              echo "✅ $(basename $viewmodel): Has state management decorator"
+            else
+              echo "⚠️  $(basename $viewmodel): Consider adding state management"
+            fi
+          done
+

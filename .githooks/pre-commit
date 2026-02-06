@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# Pre-commit hook to ensure code quality
+# Install: cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -e
+
+echo "🔍 Running pre-commit checks..."
+
+# Check for Swift files
+SWIFT_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.swift$' | grep -v Pods || true)
+
+if [ -z "$SWIFT_FILES" ]; then
+    echo "ℹ️  No Swift files to check"
+    exit 0
+fi
+
+echo "Checking $SWIFT_FILES files..."
+
+# Check for common mistakes
+echo ""
+echo "🚫 Checking for common mistakes..."
+echo "==================================="
+
+ISSUES=0
+
+# Check for print statements (in Views/ViewModels, not Tests)
+for file in $SWIFT_FILES; do
+    if [[ ! "$file" =~ "Tests" && ! "$file" =~ "Preview" ]]; then
+        if grep -n "print(" "$file" | grep -v "// print" | grep -v "// "; then
+            echo "⚠️  $file contains print statements. Consider using proper logging instead."
+            ((ISSUES++))
+        fi
+    fi
+done
+
+# Check for force unwraps
+for file in $SWIFT_FILES; do
+    if [[ ! "$file" =~ "Tests" ]]; then
+        # Look for force unwraps, but allow in comments
+        if grep -n '!$\|! \|![^=]' "$file" | grep -v "//" | grep -v "/*" > /dev/null 2>&1; then
+            echo "⚠️  $file may contain force unwraps. Use optional binding instead."
+            # Don't fail on this (it's a warning)
+        fi
+    fi
+done
+
+# Check for TODO/FIXME before commit
+for file in $SWIFT_FILES; do
+    if grep -n "FIXME" "$file" > /dev/null 2>&1; then
+        echo "⚠️  $file contains FIXME comments. Please address before committing."
+        ((ISSUES++))
+    fi
+done
+
+# Check for trailing whitespace
+for file in $SWIFT_FILES; do
+    if grep -n '[[:space:]]$' "$file" > /dev/null 2>&1; then
+        echo "❌ $file has trailing whitespace"
+        ((ISSUES++))
+    fi
+done
+
+if [ $ISSUES -gt 0 ]; then
+    echo ""
+    echo "❌ Found $ISSUES issue(s). Please fix them before committing."
+    exit 1
+fi
+
+echo ""
+echo "✅ Pre-commit checks passed!"
+echo ""
+
+exit 0
