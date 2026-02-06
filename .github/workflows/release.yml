@@ -1,0 +1,63 @@
+# name: Release
+
+# on:
+#   push:
+#     branches: [ main ]
+#     tags:
+#       - 'v*'
+
+# jobs:
+#   release:
+#     name: Release Build
+#     runs-on: macos-14
+    
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+      
+#       - name: Select Xcode version
+#         run: |
+#           sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+#           xcodebuild -version
+      
+#       - name: Build for release
+#         run: |
+#           xcodebuild \
+#             -project Pettio.IOS.xcodeproj \
+#             -scheme Pettio.IOS \
+#             -configuration Release \
+#             -destination 'generic/platform=iOS' \
+#             -archivePath "Pettio.xcarchive" \
+#             archive
+      
+#       - name: Extract version
+#         id: version
+#         run: |
+#           VERSION=$(grep -r "MARKETING_VERSION" Pettio.IOS.xcodeproj/project.pbxproj | head -1 | sed 's/.*= //;s/;//')
+#           echo "version=$VERSION" >> $GITHUB_OUTPUT
+#           echo "Release Version: $VERSION"
+      
+#       - name: Create release notes
+#         run: |
+#           echo "## Release Notes" > release-notes.md
+#           echo "" >> release-notes.md
+#           echo "Version: ${{ steps.version.outputs.version }}" >> release-notes.md
+#           echo "" >> release-notes.md
+#           echo "### Changes" >> release-notes.md
+#           git log --oneline -10 >> release-notes.md
+      
+#       - name: Upload archive
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: Pettio-Release
+#           path: Pettio.xcarchive
+#           retention-days: 30
+      
+#       - name: Create GitHub Release
+#         uses: softprops/action-gh-release@v2
+#         if: startsWith(github.ref, 'refs/tags/')
+#         with:
+#           body_path: release-notes.md
+#           draft: false
+#           prerelease: false
+
