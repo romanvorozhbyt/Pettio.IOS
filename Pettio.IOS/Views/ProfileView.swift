@@ -319,7 +319,8 @@ struct CreatePetView: View {
             bio: bio,
             imageURLs: [],
             interests: [],
-            purpose: purpose
+            purpose: purpose,
+            isProfileOwner: true  // Mark as user's own profile
         )
         
         modelContext.insert(newPet)

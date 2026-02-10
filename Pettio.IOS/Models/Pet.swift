@@ -19,9 +19,11 @@ final class Pet {
     var location: String
     var bio: String
     var imageURLs: [String]
+    var imageName: String? // Local image name from Assets
     var interests: [String] // e.g., ["playmate", "breeding", "adoption"]
     var purpose: PetPurpose
     var createdAt: Date
+    var isProfileOwner: Bool = false // Mark user's own pet
     
     init(
         id: String = UUID().uuidString,
@@ -33,9 +35,11 @@ final class Pet {
         location: String,
         bio: String,
         imageURLs: [String],
+        imageName: String? = nil,
         interests: [String],
         purpose: PetPurpose,
-        createdAt: Date = Date()
+        createdAt: Date = Date(),
+        isProfileOwner: Bool = false
     ) {
         self.id = id
         self.name = name
@@ -46,9 +50,11 @@ final class Pet {
         self.location = location
         self.bio = bio
         self.imageURLs = imageURLs
+        self.imageName = imageName
         self.interests = interests
         self.purpose = purpose
         self.createdAt = createdAt
+        self.isProfileOwner = isProfileOwner
     }
 }
 

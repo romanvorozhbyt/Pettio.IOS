@@ -11,7 +11,6 @@ import SwiftData
 struct FeedView: View {
     @State private var viewModel = FeedViewModel()
     @Environment(\.modelContext) private var modelContext
-    @Query private var allPets: [Pet]
     @State private var showFilter = false
     @State private var myPetId: String = "current-user-pet" // This would come from user context
     
@@ -36,19 +35,6 @@ struct FeedView: View {
                 // Card stack
                 ZStack(alignment: .center) {
                     if viewModel.remainingCards > 0 {
-                        // Show remaining cards in background (stacked effect)
-                        if viewModel.currentIndex + 1 < viewModel.petCards.count {
-                            SwipeCardView(
-                                pet: viewModel.petCards[viewModel.currentIndex + 1],
-                                onSwipeLeft: {},
-                                onSwipeRight: {},
-                                onSuperLike: {}
-                            )
-                            .offset(y: 8)
-                            .opacity(0.9)
-                            .scaleEffect(0.95)
-                        }
-                        
                         // Current card
                         if let pet = viewModel.currentPet {
                             SwipeCardView(
@@ -145,7 +131,7 @@ struct FeedView: View {
             FilterView(viewModel: viewModel)
         }
         .onAppear {
-            viewModel.petCards = allPets.shuffled()
+            viewModel.loadPets(from: modelContext)
         }
     }
 }

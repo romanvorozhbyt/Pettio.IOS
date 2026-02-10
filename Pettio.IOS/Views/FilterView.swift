@@ -74,6 +74,13 @@ struct FilterView: View {
                     Button("Cancel") { dismiss() }
                 }
                 
+                ToolbarItem(placement: .principal) {
+                    Button("Clear All") {
+                        clearFilters()
+                    }
+                    .font(.caption)
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Apply") {
                         viewModel.filteredBreeds = Array(selectedBreeds)
@@ -84,6 +91,14 @@ struct FilterView: View {
                 }
             }
         }
+    }
+    
+    private func clearFilters() {
+        viewModel.minAge = 0
+        viewModel.maxAge = 15
+        viewModel.selectedSize = nil
+        viewModel.selectedPurpose = nil
+        selectedBreeds.removeAll()
     }
 }
 

@@ -11,6 +11,7 @@ import SwiftData
 @Observable
 class FeedViewModel {
     var petCards: [Pet] = []
+    var allPets: [Pet] = [] // Store original unfiltered list
     var currentIndex: Int = 0
     var filteredBreeds: [String] = []
     var minAge: Int = 0
@@ -28,7 +29,32 @@ class FeedViewModel {
     }
     
     init(pets: [Pet] = []) {
-        self.petCards = pets.shuffled()
+        if pets.isEmpty {
+            self.petCards = []
+        } else {
+            self.petCards = pets.shuffled()
+        }
+    }
+    
+    func loadPets(from modelContext: ModelContext) {
+        do {
+            // Fetch all pets that are not the profile owner
+            var descriptor = FetchDescriptor<Pet>(predicate: #Predicate<Pet> { pet in
+                pet.isProfileOwner == false
+            })
+            descriptor.fetchLimit = 100
+            
+            let fetchedPets = try modelContext.fetch(descriptor)
+            print("🔍 FeedViewModel: Loaded \(fetchedPets.count) discoverable pets")
+            
+            self.allPets = fetchedPets // Store original list
+            self.petCards = fetchedPets.shuffled()
+            self.currentIndex = 0
+        } catch {
+            print("❌ Error loading pets: \(error)")
+            self.allPets = []
+            self.petCards = []
+        }
     }
     
     func swipeRight(myPetId: String, modelContext: ModelContext) {
@@ -39,16 +65,34 @@ class FeedViewModel {
             targetPetId: pet.id,
             action: .like
         )
+        modelContext.insert(swipeAction)
         
-        let match = Match(
-            myPetId: myPetId,
-            matchedPetId: pet.id,
-            matchedPet: pet,
-            matchType: .like
+        // Check if match already exists
+        let petId = pet.id
+        let matchDescriptor = FetchDescriptor<Match>(
+            predicate: #Predicate<Match> { match in
+                match.matchedPetId == petId
+            }
         )
         
-        modelContext.insert(swipeAction)
-        modelContext.insert(match)
+        do {
+            let existingMatches = try modelContext.fetch(matchDescriptor)
+            if existingMatches.isEmpty {
+                // Only create match if it doesn't exist
+                let match = Match(
+                    myPetId: myPetId,
+                    matchedPetId: pet.id,
+                    matchedPet: pet,
+                    matchType: .like
+                )
+                modelContext.insert(match)
+                print("✅ New match created with \(pet.name)")
+            } else {
+                print("ℹ️ Match with \(pet.name) already exists")
+            }
+        } catch {
+            print("❌ Error checking for existing match: \(error)")
+        }
         
         currentIndex += 1
     }
@@ -74,23 +118,41 @@ class FeedViewModel {
             targetPetId: pet.id,
             action: .superLike
         )
+        modelContext.insert(swipeAction)
         
-        let match = Match(
-            myPetId: myPetId,
-            matchedPetId: pet.id,
-            matchedPet: pet,
-            matchType: .superLike
+        // Check if match already exists
+        let petId = pet.id
+        let matchDescriptor = FetchDescriptor<Match>(
+            predicate: #Predicate<Match> { match in
+                match.matchedPetId == petId
+            }
         )
         
-        modelContext.insert(swipeAction)
-        modelContext.insert(match)
+        do {
+            let existingMatches = try modelContext.fetch(matchDescriptor)
+            if existingMatches.isEmpty {
+                // Only create match if it doesn't exist
+                let match = Match(
+                    myPetId: myPetId,
+                    matchedPetId: pet.id,
+                    matchedPet: pet,
+                    matchType: .superLike
+                )
+                modelContext.insert(match)
+                print("⭐ New super like match created with \(pet.name)")
+            } else {
+                print("ℹ️ Match with \(pet.name) already exists")
+            }
+        } catch {
+            print("❌ Error checking for existing match: \(error)")
+        }
         
         currentIndex += 1
     }
     
     func applyFilters() {
-        // Filter petCards based on selected filters
-        var filtered = petCards
+        // Always filter from the original unfiltered list
+        var filtered = allPets
         
         if !filteredBreeds.isEmpty {
             filtered = filtered.filter { filteredBreeds.contains($0.breed) }
@@ -106,12 +168,14 @@ class FeedViewModel {
             filtered = filtered.filter { $0.purpose == purpose }
         }
         
-        petCards = filtered
+        petCards = filtered.shuffled()
         currentIndex = 0
+        
+        print("🔍 Filter applied: \(filtered.count) pets match criteria")
     }
     
     func reset() {
         currentIndex = 0
-        petCards = petCards.shuffled()
+        petCards = allPets.shuffled()
     }
 }

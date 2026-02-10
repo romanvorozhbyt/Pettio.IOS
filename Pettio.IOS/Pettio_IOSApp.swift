@@ -28,6 +28,11 @@ struct Pettio_IOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    // Seed database on first launch
+                    let modelContext = sharedModelContainer.mainContext
+                    SeedDataProvider.seedDatabaseIfNeeded(modelContext: modelContext)
+                }
         }
         .modelContainer(sharedModelContainer)
     }
