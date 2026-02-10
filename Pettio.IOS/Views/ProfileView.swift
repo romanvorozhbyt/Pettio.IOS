@@ -9,11 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct ProfileView: View {
-    @Query private var pets: [Pet]
+    @Query(filter: #Predicate<Pet> { pet in
+        pet.isProfileOwner
+    }) private var pets: [Pet]
     @State private var isEditingProfile = false
     
     var myPet: Pet? {
-        pets.first // In a real app, this would be the logged-in user's pet
+        pets.first
     }
     
     var body: some View {

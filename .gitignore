@@ -36,3 +36,7 @@ Carthage/Build/
 # Custom Assets (source files, not the asset catalog)
 My_assets/
 Assets/pictures/
+
+# Google Sign-In credentials (sensitive)
+GoogleService-Info.plist
+*.apps.googleusercontent.com.plist
