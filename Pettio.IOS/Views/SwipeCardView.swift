@@ -19,47 +19,60 @@ struct SwipeCardView: View {
     @State private var scale: CGFloat = 1.0
     
     private var placeholderImage: some View {
-        Image(systemName: "photo.fill")
-            .font(.system(size: 60))
-            .foregroundColor(.gray)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.gray.opacity(0.2))
+        ZStack {
+            Color.gray.opacity(0.3)
+            Image(systemName: "photo.fill")
+                .font(.system(size: 60))
+                .foregroundColor(.white.opacity(0.7))
+        }
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            // Background image
-            if pet.imageURLs.isEmpty {
-                placeholderImage
-            } else {
-                let imagePath = pet.imageURLs[currentImageIndex]
-                
-                if imagePath.hasPrefix("http://") || imagePath.hasPrefix("https://") {
-                    AsyncImage(url: URL(string: imagePath)) { phase in
-                        switch phase {
-                        case .empty:
-                            placeholderImage
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .clipped()
-                        case .failure:
-                            placeholderImage
-                        @unknown default:
-                            placeholderImage
+        GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+                // Background image - prioritize local images
+                if let localImageName = pet.imageName {
+                    // Local image from assets
+                    Image(localImageName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .clipped()
+                } else if !pet.imageURLs.isEmpty {
+                    let imagePath = pet.imageURLs[currentImageIndex]
+                    
+                    if imagePath.hasPrefix("http://") || imagePath.hasPrefix("https://") {
+                        AsyncImage(url: URL(string: imagePath)) { phase in
+                            switch phase {
+                            case .empty:
+                                placeholderImage
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                                    .clipped()
+                            case .failure:
+                                placeholderImage
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                            @unknown default:
+                                placeholderImage
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                            }
                         }
+                    } else {
+                        // Local image from imageURLs array
+                        Image(imagePath)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .clipped()
                     }
                 } else {
-                    // Local image - Image view will handle missing images gracefully
-                    Image(imagePath)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .clipped()
+                    placeholderImage
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                 }
-            }
             
             // Pet info overlay
             VStack(alignment: .leading, spacing: 8) {
@@ -176,6 +189,7 @@ struct SwipeCardView: View {
                     }
                 }
         )
+        }
     }
 }
 

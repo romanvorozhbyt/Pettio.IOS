@@ -63,13 +63,48 @@ struct MatchRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 12) {
-                // Pet avatar placeholder
+                // Pet avatar with local or remote image
                 ZStack {
                     Circle()
                         .fill(Color.gray.opacity(0.2))
+                        .frame(width: 50, height: 50)
                     
-                    Image(systemName: "pawprint.fill")
-                        .foregroundColor(.gray)
+                    if let pet = match.matchedPet {
+                        if let imageName = pet.imageName {
+                            // Local image
+                            Image(imageName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                        } else if !pet.imageURLs.isEmpty {
+                            // Remote image
+                            AsyncImage(url: URL(string: pet.imageURLs[0])) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                case .failure:
+                                    Image(systemName: "pawprint.fill")
+                                        .foregroundColor(.gray)
+                                @unknown default:
+                                    Image(systemName: "pawprint.fill")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        } else {
+                            Image(systemName: "pawprint.fill")
+                                .foregroundColor(.gray)
+                        }
+                    } else {
+                        Image(systemName: "pawprint.fill")
+                            .foregroundColor(.gray)
+                    }
                 }
                 .frame(width: 50, height: 50)
                 

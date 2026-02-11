@@ -11,7 +11,6 @@ import SwiftData
 struct FeedView: View {
     @State private var viewModel = FeedViewModel()
     @Environment(\.modelContext) private var modelContext
-    @Query private var allPets: [Pet]
     @State private var showFilter = false
     @State private var myPetId: String = "current-user-pet" // This would come from user context
     
@@ -36,19 +35,6 @@ struct FeedView: View {
                 // Card stack
                 ZStack(alignment: .center) {
                     if viewModel.remainingCards > 0 {
-                        // Show remaining cards in background (stacked effect)
-                        if viewModel.currentIndex + 1 < viewModel.petCards.count {
-                            SwipeCardView(
-                                pet: viewModel.petCards[viewModel.currentIndex + 1],
-                                onSwipeLeft: {},
-                                onSwipeRight: {},
-                                onSuperLike: {}
-                            )
-                            .offset(y: 8)
-                            .opacity(0.9)
-                            .scaleEffect(0.95)
-                        }
-                        
                         // Current card
                         if let pet = viewModel.currentPet {
                             SwipeCardView(
@@ -92,60 +78,15 @@ struct FeedView: View {
                         .frame(maxHeight: .infinity)
                     }
                 }
-                .frame(height: 500)
-                
-                // Action buttons
-                if viewModel.remainingCards > 0 {
-                    HStack(spacing: 16) {
-                        // Dislike button
-                        Button(action: {
-                            viewModel.swipeLeft(myPetId: myPetId, modelContext: modelContext)
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 50))
-                                .foregroundColor(.gray)
-                        }
-                        .accessibilityLabel("Dislike")
-                        .accessibilityHint("Swipe left to dislike this pet")
-                        
-                        Spacer()
-                        
-                        // Super like button
-                        Button(action: {
-                            viewModel.superLike(myPetId: myPetId, modelContext: modelContext)
-                        }) {
-                            Image(systemName: "star.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(.yellow)
-                        }
-                        .accessibilityLabel("Super like")
-                        .accessibilityHint("Send a super like to this pet")
-                        
-                        Spacer()
-                        
-                        // Like button
-                        Button(action: {
-                            viewModel.swipeRight(myPetId: myPetId, modelContext: modelContext)
-                        }) {
-                            Image(systemName: "heart.circle.fill")
-                                .font(.system(size: 50))
-                                .foregroundColor(.pink)
-                        }
-                        .accessibilityLabel("Like")
-                        .accessibilityHint("Swipe right to like this pet")
-                    }
-                    .padding(.horizontal, 32)
-                    .padding(.vertical)
-                }
-                
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.bottom, 12)
             }
         }
         .sheet(isPresented: $showFilter) {
             FilterView(viewModel: viewModel)
         }
         .onAppear {
-            viewModel.petCards = allPets.shuffled()
+            viewModel.loadPets(from: modelContext)
         }
     }
 }

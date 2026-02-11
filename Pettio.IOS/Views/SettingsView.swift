@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View {
+    @Environment(\.modelContext) private var modelContext
+    @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
+    @AppStorage("hasLinkedEmail") private var hasLinkedEmail = false
     @State private var pushNotificationsEnabled = true
     @State private var matchNotificationsEnabled = true
     @State private var messageNotificationsEnabled = true
     @State private var privateProfile = false
     @State private var showAbout = false
+    @State private var showDeleteConfirm = false
     
     var body: some View {
         NavigationStack {
@@ -38,7 +43,7 @@ struct SettingsView: View {
                 
                 Section("Account") {
                     Button(role: .destructive) {
-                        // Delete account action
+                        showDeleteConfirm = true
                     } label: {
                         Text("Delete Account")
                     }
@@ -70,6 +75,38 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showAbout) {
             AboutView()
+        }
+        .alert("Delete Account", isPresented: $showDeleteConfirm) {
+            Button("Delete", role: .destructive) {
+                deleteAccount()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This will remove your profile, matches, and swipe history from this device.")
+        }
+    }
+
+    private func deleteAccount() {
+        do {
+            let allPetsDescriptor = FetchDescriptor<Pet>()
+            let allPets = try modelContext.fetch(allPetsDescriptor)
+            let profiles = allPets.filter { $0.isProfileOwner || !$0.id.hasPrefix("pet_00") }
+            profiles.forEach { modelContext.delete($0) }
+
+            let matchDescriptor = FetchDescriptor<Match>()
+            let matches = try modelContext.fetch(matchDescriptor)
+            matches.forEach { modelContext.delete($0) }
+
+            let swipeDescriptor = FetchDescriptor<SwipeAction>()
+            let swipes = try modelContext.fetch(swipeDescriptor)
+            swipes.forEach { modelContext.delete($0) }
+
+            try modelContext.save()
+            AuthManager.shared.clearAuth()
+            hasSeenWelcome = false
+            hasLinkedEmail = false
+        } catch {
+            print("Failed to delete account data: \(error)")
         }
     }
 }
