@@ -111,29 +111,7 @@ struct ProfileView: View {
                         EditProfileView(pet: pet)
                     }
                 } else {
-                    VStack(spacing: 16) {
-                        Image(systemName: "pawprint.fill")
-                            .font(.system(size: 80))
-                            .foregroundColor(.gray)
-                        
-                        Text("Create Your Pet Profile")
-                            .font(.headline)
-                        
-                        Text("Add your pet to get started swiping!")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        
-                        NavigationLink(destination: CreatePetView()) {
-                            Text("Create Profile")
-                                .fontWeight(.semibold)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.pink)
-                                .cornerRadius(12)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Text("No profile yet")
                 }
             }
             .navigationTitle("My Profile")
@@ -170,10 +148,15 @@ struct EditProfileView: View {
     @State private var location: String = ""
     @State private var bio: String = ""
     @State private var purpose: PetPurpose = .playmate
+    @State private var profileImageData: Data?
     
     var body: some View {
         NavigationStack {
             Form {
+                Section("Profile Picture") {
+                    ImagePickerView(imageData: $profileImageData, label: "Update Pet Picture")
+                }
+                
                 Section("Basic Info") {
                     TextField("Name", text: $name)
                     TextField("Breed", text: $breed)
@@ -224,6 +207,7 @@ struct EditProfileView: View {
                         pet.location = location
                         pet.bio = bio
                         pet.purpose = purpose
+                        pet.profileImageData = profileImageData
                         dismiss()
                     }
                     .fontWeight(.semibold)
@@ -238,6 +222,7 @@ struct EditProfileView: View {
                 location = pet.location
                 bio = pet.bio
                 purpose = pet.purpose
+                profileImageData = pet.profileImageData
             }
         }
     }
@@ -255,6 +240,7 @@ struct CreatePetView: View {
     @State private var location: String = ""
     @State private var bio: String = ""
     @State private var purpose: PetPurpose = .playmate
+    @State private var profileImageData: Data?
     
     var isValid: Bool {
         !name.isEmpty && !breed.isEmpty && !location.isEmpty && !bio.isEmpty
@@ -263,6 +249,10 @@ struct CreatePetView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section("Profile Picture") {
+                    ImagePickerView(imageData: $profileImageData, label: "Choose Pet Picture")
+                }
+                
                 Section("Basic Info") {
                     TextField("Pet Name", text: $name)
                     TextField("Breed", text: $breed)
@@ -320,6 +310,7 @@ struct CreatePetView: View {
             location: location,
             bio: bio,
             imageURLs: [],
+            profileImageData: profileImageData,
             interests: [],
             purpose: purpose,
             isProfileOwner: true  // Mark as user's own profile

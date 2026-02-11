@@ -22,28 +22,32 @@ struct ContentView: View {
                 hasLinkedEmail: $hasLinkedEmail
             )
         } else {
-            TabView {
-                FeedView()
-                    .tabItem {
-                        Label("Discover", systemImage: "heart.fill")
+            NavigationStack {
+                TabView {
+                    FeedView()
+                        .tabItem {
+                            Label("Discover", systemImage: "heart.fill")
+                        }
+                    
+                    MatchesView()
+                        .tabItem {
+                            Label("Matches", systemImage: "star.fill")
+                        }
+                    
+                    SettingsView()
+                        .tabItem {
+                            Label("Settings", systemImage: "gearshape.fill")
+                        }
+                }
+                .tint(.pink)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        AccountMenuView()
                     }
-                
-                MatchesView()
-                    .tabItem {
-                        Label("Matches", systemImage: "star.fill")
-                    }
-                
-                ProfileView()
-                    .tabItem {
-                        Label("Profile", systemImage: "pawprint.fill")
-                    }
-                
-                SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gearshape.fill")
-                    }
+                }
+                .navigationTitle("Pettio")
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .tint(.pink)
         }
     }
 }
@@ -52,6 +56,6 @@ struct ContentView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Pet.self, Match.self, SwipeAction.self, configurations: config)
     
-    return ContentView()
+    ContentView()
         .modelContainer(container)
 }

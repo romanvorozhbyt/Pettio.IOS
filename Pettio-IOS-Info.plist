@@ -2,11 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-	<key>INIntentsSupported</key>
-	<array>
-		<string>Intent</string>
-	</array>
+    <key>CFBundleIdentifier</key>
+    <string>com.yourcompany.Pettio</string>
+
+    <key>CFBundleName</key>
+    <string>Pettio</string>
+
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>com.googleusercontent.apps.853373580402-t9092430ge2a9abepm2e3uf4gnkn8r71</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.853373580402-t9092430ge2a9abepm2e3uf4gnkn8r71</string>
+            </array>
+        </dict>
+    </array>
+
+    <key>INIntentsSupported</key>
+    <array>
+        <string>Intent</string>
+    </array>
 </dict>
 </plist>

@@ -163,8 +163,5 @@ struct AuthLinkView: View {
 }
 
 #Preview {
-    @Previewable @State var seen = false
-    @Previewable @State var linked = false
-
-    return OnboardingFlowView(hasSeenWelcome: $seen, hasLinkedEmail: $linked)
+    OnboardingFlowView(hasSeenWelcome: .constant(false), hasLinkedEmail: .constant(false))
 }

@@ -12,7 +12,7 @@ struct FilterView: View {
     @Bindable var viewModel: FeedViewModel
     @State private var selectedBreeds: Set<String> = []
     
-    let allBreeds = ["Golden Retriever", "Labrador", "German Shepherd", "Bulldog", "Poodle", 
+    let allBreeds = ["Golden Retriever", "Labrador", "German Shepherd", "Bulldog", "Poodle",
                      "Beagle", "Siamese", "Persian", "Maine Coon", "British Shorthair"]
     
     var body: some View {
@@ -21,15 +21,15 @@ struct FilterView: View {
                 Section("Age Range") {
                     HStack {
                         Text("Min: \(viewModel.minAge)")
-                        Slider(value: .init(get: { Double(viewModel.minAge) }, 
-                                           set: { viewModel.minAge = Int($0) }), 
+                        Slider(value: .init(get: { Double(viewModel.minAge) },
+                                           set: { viewModel.minAge = Int($0) }),
                               in: 0...15, step: 1)
                     }
                     
                     HStack {
                         Text("Max: \(viewModel.maxAge)")
-                        Slider(value: .init(get: { Double(viewModel.maxAge) }, 
-                                           set: { viewModel.maxAge = Int($0) }), 
+                        Slider(value: .init(get: { Double(viewModel.maxAge) },
+                                           set: { viewModel.maxAge = Int($0) }),
                               in: 0...15, step: 1)
                     }
                 }

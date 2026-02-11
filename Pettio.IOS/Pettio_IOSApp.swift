@@ -18,7 +18,9 @@ struct Pettio_IOSApp: App {
            let clientID = googleConfig["CLIENT_ID"] as? String,
            let reversedClientID = googleConfig["REVERSED_CLIENT_ID"] as? String {
             
-            GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+            // Use GIDConfiguration and assign to the shared instance (newer GoogleSignIn API)
+            let gidConfig = GIDConfiguration(clientID: clientID)
+            GIDSignIn.sharedInstance.configuration = gidConfig
             
             // Register the URL scheme for OAuth callbacks
             registerGoogleURLScheme(reversedClientID)
@@ -26,20 +28,14 @@ struct Pettio_IOSApp: App {
     }
     
     private func registerGoogleURLScheme(_ reversedClientID: String) {
-        // URL scheme is already registered in Info.plist at build time
-        // This is here for reference - the reversed client ID is used for Google OAuth callbacks
+        // No-op: URL schemes are configured in Info.plist at build time.
+        // Keep this helper for reference and tests.
     }
 
+    // Shared ModelContainer for the app (use variadic model types)
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Pet.self,
-            Match.self,
-            SwipeAction.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: Pet.self, Match.self, SwipeAction.self)
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
@@ -50,7 +46,7 @@ struct Pettio_IOSApp: App {
             ContentView()
                 .onAppear {
                     // Seed database on first launch
-                    let modelContext = sharedModelContainer.mainContext
+                    let modelContext = ModelContext(sharedModelContainer)
                     SeedDataProvider.seedDatabaseIfNeeded(modelContext: modelContext)
                 }
                 .onOpenURL { url in

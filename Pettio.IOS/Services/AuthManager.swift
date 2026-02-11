@@ -32,6 +32,7 @@ enum AuthError: LocalizedError {
     }
 }
 
+@MainActor
 final class AuthManager {
     static let shared = AuthManager()
 
@@ -84,6 +85,7 @@ final class AuthManager {
         UserDefaults.standard.set(provider, forKey: linkedProviderKey)
     }
 
+    @MainActor
     private static func rootViewController() -> UIViewController? {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first { $0 is UIWindowScene } as? UIWindowScene

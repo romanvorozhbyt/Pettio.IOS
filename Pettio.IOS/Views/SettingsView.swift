@@ -121,8 +121,8 @@ struct DiscoveryPreferencesView: View {
             Section("Distance") {
                 HStack {
                     Text("Max: \(maxDistance) km")
-                    Slider(value: .init(get: { Double(maxDistance) }, 
-                                       set: { maxDistance = Int($0) }), 
+                    Slider(value: .init(get: { Double(maxDistance) },
+                                       set: { maxDistance = Int($0) }),
                           in: 1...100, step: 1)
                 }
             }

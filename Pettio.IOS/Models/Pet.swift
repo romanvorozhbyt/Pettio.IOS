@@ -20,6 +20,7 @@ final class Pet {
     var bio: String
     var imageURLs: [String]
     var imageName: String? // Local image name from Assets
+    var profileImageData: Data? // User-uploaded profile picture
     var interests: [String] // e.g., ["playmate", "breeding", "adoption"]
     var purpose: PetPurpose
     var createdAt: Date
@@ -34,10 +35,11 @@ final class Pet {
         type: PetType,
         location: String,
         bio: String,
-        imageURLs: [String],
+        imageURLs: [String] = [],
         imageName: String? = nil,
-        interests: [String],
-        purpose: PetPurpose,
+        profileImageData: Data? = nil,
+        interests: [String] = [],
+        purpose: PetPurpose = .playmate,
         createdAt: Date = Date(),
         isProfileOwner: Bool = false
     ) {
@@ -51,6 +53,7 @@ final class Pet {
         self.bio = bio
         self.imageURLs = imageURLs
         self.imageName = imageName
+        self.profileImageData = profileImageData
         self.interests = interests
         self.purpose = purpose
         self.createdAt = createdAt

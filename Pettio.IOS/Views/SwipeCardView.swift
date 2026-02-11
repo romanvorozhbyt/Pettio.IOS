@@ -194,19 +194,5 @@ struct SwipeCardView: View {
 }
 
 #Preview {
-    SwipeCardView(
-        pet: Pet(
-            name: "Max",
-            breed: "Golden Retriever",
-            age: 3,
-            size: .large,
-            type: .dog,
-            location: "San Francisco, CA",
-            bio: "Friendly and energetic! Love playing fetch!",
-            imageURLs: [],
-            interests: ["playmate", "friendship"],
-            purpose: .playmate
-        )
-    )
-    .frame(height: 500)
+    SwipeCardView(pet: Pet(id: "preview", name: "Buddy", breed: "Labrador", age: 3, size: .large, type: .dog, location: "", bio: "Preview", imageURLs: [], imageName: nil, profileImageData: nil, interests: [], purpose: .playmate, isProfileOwner: false), onSwipeLeft: {}, onSwipeRight: {}, onSuperLike: {})
 }

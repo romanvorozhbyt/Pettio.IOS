@@ -95,6 +95,6 @@ struct FeedView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Pet.self, configurations: config)
     
-    return FeedView()
+    FeedView()
         .modelContainer(container)
 }
